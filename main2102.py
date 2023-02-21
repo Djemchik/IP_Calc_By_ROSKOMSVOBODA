@@ -16,30 +16,25 @@ def calculate_allowed_ips(ip_addresses):
     return allowed_ips
 
 
-def main():
-    # делаем GET-запрос к API и получаем данные в формате JSON
-    url = "https://reestr.rublacklist.net/api/v3/ips/"
-    response = requests.get(url)
-    data = response.json()
+# делаем GET-запрос к API и получаем данные в формате JSON
+url = "https://reestr.rublacklist.net/api/v3/ips/"
+response = requests.get(url)
+data = response.json()
 
-    # выбираем только IPv4-адреса и объединяем их, если это возможно
-    ipv4_addresses = []
-    for i, address in enumerate(tqdm(data, desc="Processing IP addresses")):
-        if ":" not in address:
-            ipv4_addresses.append(address)
-        # выводим прогресс выполнения цикла каждые 5000 итераций
-        if i > 0 and i % 5000 == 0:
-            tqdm.write(f"Processed {i} IPv4 addresses")
+# выбираем только IPv4-адреса и объединяем их, если это возможно
+ipv4_addresses = []
+for i, address in enumerate(tqdm(data, desc="Processing IP addresses")):
+    if ":" not in address:
+        ipv4_addresses.append(address)
+    # выводим прогресс выполнения цикла каждые 5000 итераций
+    if i > 0 and i % 5000 == 0:
+        tqdm.write(f"Processed {i} IPv4 addresses")
 
-    # рассчитываем маски подсетей
-    allowed_ips = calculate_allowed_ips(ipv4_addresses)
+# рассчитываем маски подсетей
+allowed_ips = calculate_allowed_ips(ipv4_addresses)
 
-    # выводим результат
-    result = "Allowed IPs = " + ", ".join(allowed_ips)
-    print("\033[92m" + result + "\033[0m")  # выводим сообщение в зеленом цвете
+# выводим результат
+result = "Allowed IPs = " + ", ".join(allowed_ips)
+print("\033[92m" + result + "\033[0m")  # выводим сообщение в зеленом цвете
 
-    print("\033[1m" + "\033[91m" + "УСПЕХ" + "\033[0m") # выводим сообщение "УСПЕХ" в разноцветных буквах
-
-
-if __name__ == "__main__":
-    main()
+print("\033[1m" + "\033[91m" + "УСПЕХ" + "\033[0m") # выводим сообщение "УСПЕХ" в разноцветных буквах
