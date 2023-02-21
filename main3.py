@@ -18,6 +18,7 @@ def merge_networks(networks):
     for network in networks[1:]:
         if new_networks[-1].overlaps(network):
             new_networks[-1] = new_networks[-1].supernet()
+            new_networks[-1] = new_networks[-1].subnet(new_networks[-1].prefixlen + 1)
         else:
             new_networks.append(network)
 
